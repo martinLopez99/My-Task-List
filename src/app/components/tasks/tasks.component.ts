@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../../services/task.service';
 import { Task } from 'src/app/Task';
-import { TASK } from 'src/app/mock-task';
 
-
+//El componente no se va a encargar de realizar las tareas, ahora se lo derivo al archivo de servicios
+//De esta forma el componente no maneja la logica de las tareas.
 
 @Component({
   selector: 'app-tasks',
@@ -10,11 +11,18 @@ import { TASK } from 'src/app/mock-task';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
-  tasks: Task[] = TASK;
+  tasks: Task[] = [];
 
-  constructor() { }
+  constructor(
+    private taskService: TaskService  //Inicializo el Servicio
+  ) { }
 
   ngOnInit(): void {
+    //Promesas
+    this.taskService.getTask().subscribe( (tasks) =>{
+      this.tasks = tasks; 
+    } );
   }
+
 
 }
